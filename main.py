@@ -8,6 +8,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('login_name')
     parser.add_argument('oauth_token')
+    parser.add_argument('--unfollow', action="store_true")
 
     args = parser.parse_args()
 
@@ -15,6 +16,7 @@ def main():
     login_id = getLoginId(login_name)
     global oauth_token
     oauth_token = args.oauth_token
+    is_unfollow = args.unfollow
     
     print("Login id : {}".format(login_id))
 
@@ -23,8 +25,12 @@ def main():
 
     target_ids = list(map(lambda x: x["to_id"], data))
 
+    action = followWithUserId
+    if is_unfollow:
+        action = unfollowWithUserId 
+
     for target_id in target_ids:
-        unfollowWithUserId(target_id)
+        action(target_id)
         pass
 
 def followWithUserId(user_id):
@@ -47,6 +53,7 @@ def useGqlPost(payload):
     headers = {
         "Authorization": "OAuth {}".format(oauth_token)
     }
+
     r = requests.post('https://gql.twitch.tv/gql', data=json.dumps(payload), headers=headers)
     response = r.json()
     
