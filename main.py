@@ -14,7 +14,7 @@ def main():
 
 def getLoginId(login_name):
     user_info = getUsers(login_name)
-    output = user_info["id"]
+    output = user_info["data"][0]["id"]
     return output
 
 def getUsers(login_name):
