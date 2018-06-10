@@ -2,6 +2,8 @@ import requests
 import argparse
 import json
 
+oauth_token = ""
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('login_name')
@@ -11,6 +13,7 @@ def main():
 
     login_name = args.login_name
     login_id = getLoginId(login_name)
+    global oauth_token
     oauth_token = args.oauth_token
     
     print("Login id : {}".format(login_id))
@@ -21,20 +24,33 @@ def main():
     target_ids = list(map(lambda x: x["to_id"], data))
 
     for target_id in target_ids:
-        followWithUserId(target_id, oauth_token)
+        followWithUserId(target_id)
+        pass
 
-def followWithUserId(user_id, oauth_token):
+def followWithUserId(user_id):
     payload = [{
     "variables":{"input":{"disableNotifications":False,"targetID":"{}".format(user_id)}},"extensions":{},"operationName":"FollowButton_FollowUser","query":"mutation FollowButton_FollowUser($input: FollowUserInput!) {\n  followUser(input: $input) {\n    follow {\n      disableNotifications\n      __typename\n    }\n    __typename\n  }\n}\n"
   }]
 
+    response = useGqlPost(payload)
+
+    print("FollowWithUserId response: {}".format(response))
+
+def unfollowWithUserId(user_id):
+    payload = [{"variables":{"input":{"targetID":"{}".format(user_id)}},"extensions":{},"operationName":"FollowButton_UnfollowUser","query":"mutation FollowButton_UnfollowUser($input: UnfollowUserInput!) {\n  unfollowUser(input: $input) {\n    follow {\n      disableNotifications\n      __typename\n    }\n    __typename\n  }\n}\n"}]
+
+    response = useGqlPost(payload)
+
+    print("UnfollowWithUserId response: {}".format(response))
+
+def useGqlPost(payload):
     headers = {
         "Authorization": "OAuth {}".format(oauth_token)
     }
     r = requests.post('https://gql.twitch.tv/gql', data=json.dumps(payload), headers=headers)
     response = r.json()
-
-    print("FollowWithUserId response: {}".format(response))
+    
+    return response
 
 def getLoginId(login_name):
     user_info = getUsers(login_name)
