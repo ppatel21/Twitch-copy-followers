@@ -1,0 +1,7 @@
+Copy and paste your client id following the instruction from [this][1]
+twitch dev guide, then make a file named "client_id.txt" with your
+client id as the only content.
+
+You may choose to remove this file.
+
+[1]: https://dev.twitch.tv/docs/api/
