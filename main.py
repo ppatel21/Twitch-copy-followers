@@ -24,7 +24,7 @@ def main():
     target_ids = list(map(lambda x: x["to_id"], data))
 
     for target_id in target_ids:
-        followWithUserId(target_id)
+        unfollowWithUserId(target_id)
         pass
 
 def followWithUserId(user_id):
