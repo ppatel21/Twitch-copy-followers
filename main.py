@@ -8,6 +8,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('login_name')
     parser.add_argument('oauth_token')
+    parser.add_argument('--follow', action="store_true")
     parser.add_argument('--unfollow', action="store_true")
 
     args = parser.parse_args()
@@ -17,21 +18,28 @@ def main():
     global oauth_token
     oauth_token = args.oauth_token
     is_unfollow = args.unfollow
+    is_follow = args.follow
     
-    print("Login id : {}".format(login_id))
-
     data = getFollowingAll(login_id)
-    print("data : {} ... len: {}".format(data, len(data)))
+    total_data = len(data)
+
+    print("User with login name '{}' is following {} people".format(login_name, total_data))
 
     target_ids = list(map(lambda x: x["to_id"], data))
 
-    action = followWithUserId
+    # Should be either follow or unfollow.
+    action = None
     if is_unfollow:
         action = unfollowWithUserId 
+    elif is_follow:
+        action = followWithUserId
 
-    for target_id in target_ids:
-        action(target_id)
-        pass
+    if action is not None:
+        if len(target_ids):
+            print("User with login name '{}' is not following anyone. Terminating".format(login_name))
+
+        for target_id in target_ids:
+            action(target_id)
 
 def followWithUserId(user_id):
     payload = [{
@@ -68,7 +76,8 @@ def getUsers(login_name):
     headers = getAuthHeader()
     r = requests.get('https://api.twitch.tv/helix/users?login={}&scope=user:read:email'.format(login_name), headers=headers)
     output = r.json()
-    print("getUsers output : {}".format(output))
+    # Prints information about the user with login_name.
+    # print("getUsers output : {}".format(output))
     return output
     
 def getClientId():
