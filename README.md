@@ -1,10 +1,14 @@
 # Twitch copy followers
 
-Everyone recognizes me whenever I chat in a stream 😎 taking all the spotlight 😎. So I needed a second account to prevent that, let me chat like a twitch chat while not disrupting the stream I'm watching.
+Everyone recognizes me whenever I chat in a stream 😎 taking all the spotlight 😎. So I needed a second account to prevent that. This allowed let me to chat like the dude without being disrupted while enjoying the stream.
 
 ## Usage
 
-Usage: `python main your_login_name your_second_id_oauth_token` then `--follow` to follow all people you are following in the account with `your_login_name` from your second account.
+Usage: `python main your_login_name oauth_token_from_browser` then `--follow` to follow all people you are following in the account with `your_login_name` from your second account.
+
+Please follow the instruction in `client_id.txt.README` to obtain the `client_id`. You need this to get the follower list of your 'first' account
+
+Obtain the `oauth_token_from_browser` following the [next][#getting-oauth-token] section. You need this to start following, or copying the follower list of the first account into your second account.
 
 ## Getting OAuth token
 
@@ -14,6 +18,4 @@ Here, use the `random_string`, not `OAuth random_string`. This thing seems to ke
 
 ## Please
 
-Don't use this for creepy purpose. I hesitated to publish this because there must be creepy people ... if they ... if anyone finds this repository.
-
-For non-creepy purposes, I would really follower SYNCER instead of copying manually so that things are a lot easier.
+Please be civil with this script.

@@ -7,7 +7,7 @@ oauth_token = ""
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('login_name')
-    parser.add_argument('oauth_token')
+    parser.add_argument('oauth_token', nargs="?")
     parser.add_argument('--follow', action="store_true")
     parser.add_argument('--unfollow', action="store_true")
 
@@ -15,11 +15,24 @@ def main():
 
     login_name = args.login_name
     login_id = getLoginId(login_name)
+
     global oauth_token
     oauth_token = args.oauth_token
     is_unfollow = args.unfollow
     is_follow = args.follow
-    
+
+    if oauth_token is not None and \
+        is_unfollow is False and is_follow is False:
+        
+        print("Use follow (--follow) or unfollow (--unfollow) option.")
+        return
+
+    if oauth_token is None and \
+        (is_follow is True or is_follow is True):
+
+        print("You cannot use follow/unfollow option with no oauth_token (second parameter)")
+        return
+
     data = getFollowingAll(login_id)
     total_data = len(data)
 
@@ -109,11 +122,13 @@ def getFollowingAll(login_id):
     while(True):
         r = requests.get('https://api.twitch.tv/helix/users/follows?from_id={}&after={}'.format(login_id, cursor), headers=headers)
         response = r.json()
-        cursor = response["pagination"]["cursor"]
         
+        # loop exit condition
         if len(response["data"]) == 0:
             break 
-    
+
+        # Continue looping
+        cursor = response["pagination"]["cursor"]
         data += response["data"]
 
     return data
