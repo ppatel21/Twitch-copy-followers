@@ -4,9 +4,11 @@ Everyone recognizes me whenever I chat in a stream 😎 taking all the spotlight
 
 ## Usage
 
-Usage: `python main your_login_name oauth_token_from_browser` then `--follow` to follow all people you are following in the account with `your_login_name` from your second account.
+To see list of your 'source' account: `python main source_account_name`.
 
-Please follow the instruction in `client_id.txt.README` to obtain the `client_id`. You need this to get the follower list of your 'first' account
+You need to have the `client_id` of the Twitch app made for this 'source' account. Follow the instruction in `client_id.txt.README` to obtain the `client_id`.
+
+To copy followers: `python main source_account_name oauth_token_from_browser --follow` to follow all people followed by your 'source' account with your second account.
 
 Obtain the `oauth_token_from_browser` following the [next][#getting-oauth-token] section. You need this to start following, or copying the follower list of the first account into your second account.
 
