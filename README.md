@@ -1,6 +1,6 @@
 # Twitch copy followers
 
-Everyone recognizes me whenever I chat in a stream 😎 taking all the spotlight 😎. So I needed a second account to prevent that. This allowed let me to chat like the dude without being disrupted while enjoying the stream.
+Simply copy your followers to another account easily.
 
 ## Usage
 
